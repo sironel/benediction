@@ -81,6 +81,16 @@ function nb_etudiant_garcon(){
   }
 
 
+function liste_produit_unite(){
+  $liste = DB::table('produit_unite')
+  ->join('produits', 'produit_unite.produit_id', 'produits.id')
+  ->join('unites', 'produit_unite.unite_id', 'unites.id')
+  ->select('nomproduit', 'nomunite', 'produit_unite.id')
+  ->orderBy('nomproduit', 'asc')
+  ->get();
+  return $liste;
+}
+
 
   function total_inscrit_by_faculte(){
     return  DB::table('inscriptions')
@@ -833,7 +843,7 @@ function nb_prof_faculte($user_id){// Doyen
    function client(){
      $data=[
     'nom'=>'Ronel',
-    'prenom'=>'Similien', 
+    'prenom'=>'Similien',
     'ville'=>'Fort-liberte',
     'adresse'=>'Dufour',
     'telephone'=>'33445566',
@@ -847,6 +857,7 @@ function nb_prof_faculte($user_id){// Doyen
       $modelname = 'App\\'.$model;
       $message ='';
       $status = 1;
+      $msg_error = '';
       $data = collect();
       try {
          $data =new $modelname;
@@ -859,8 +870,9 @@ function nb_prof_faculte($user_id){// Doyen
       catch(\Illuminate\Database\QueryException $ex){
            $message = $ex->getMessage();
            $status = 0;
+            $msg_error = $model.' erreur!'.'->Message: '.$message;
           }
-
+          \Log::debug($msg_error);
       return (compact(['data','status','message']));
    }
 
@@ -870,6 +882,7 @@ function nb_prof_faculte($user_id){// Doyen
 function delete_data($model, $id) {
       $modelname = 'App\\'.$model;
       $message ='';
+      $msg_error = '';
       $status = 1;
 
       if($modelname::find($id)!= null)  {
@@ -879,12 +892,14 @@ function delete_data($model, $id) {
             catch(\Illuminate\Database\QueryException $ex){
                  $message = $ex->getMessage();
                  $status = 0;
+                  $msg_error = $model.' erreur!'.'->Message: '.$message;
                 }
        }
       else{
           $message = 'Donnée introuvable...';
           $status = 0;
         }
+        \Log::debug($msg_error);
       return (compact(['id','status','message']));
    }
 
@@ -898,7 +913,9 @@ function update_data($model, $data,$id) {
       $modelname = 'App\\'.$model;
       $message ='';
       $status = 1;
+      $msg_error ='';
       $data = collect();
+
         if($modelname::find($id)!= null)  {
           try {
              $data =$modelname::find($id);
@@ -911,11 +928,13 @@ function update_data($model, $data,$id) {
           catch(\Illuminate\Database\QueryException $ex){
                $message = $ex->getMessage();
                $status = 0;
+               $msg_error = $model.' erreur!'.'->Message: '.$message;
               }
            }
       else{
           $message = 'Donnée introuvable...';
           $status = 0;
         }
+        \Log::debug($msg_error);
       return (compact(['data','status','message']));
    }

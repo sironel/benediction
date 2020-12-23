@@ -6,7 +6,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
@@ -132,10 +132,11 @@
                       <a href="/create-article"><i class="fa fa-briefcase fa-1x px-1"></i>Article</a>
                     <!--   <a href="#commande"><i class="fa fa-tasks fa-1x px-1"></i>Commande</a>
                       <a href="#proformat"><i class="fa fa-table fa-1x px-1"></i>Proformat</a>
-                      <a href="#achat"><i class="fa fa-file fa-1x px-1"></i>Achat</a>
-                      <a href="#stock"><i class="fa fa-box-open fa-1x px-1"></i>Stock</a> -->
+                      <a href="#achat"><i class="fa fa-file fa-1x px-1"></i>Achat</a> -->
+                      <a href="/gstock"><i class="fa fa-box-open fa-1x px-1"></i>Stock</a>
                       <a href="/prix-to-update"><i class="fa fa-coins fa-1x px-1"></i>Prix</a>
                       <a href="fournisseurs/"><i class="fa fa-balance-scale fa-1x px-1"></i>Fournisseur</a>
+                      <a href="gscom/"><i class="fa fa-balance-scale fa-1x px-1"></i>Client</a>
                       <a href="achats/"><i class="fa fa-balance-scale fa-1x px-1"></i>Achat</a>
                       <a href="#statistiques"><i class="fa fa-chart-line fa-1x px-1"></i>Statistiques</a>
                     </div>

@@ -37,6 +37,17 @@ Route::group(['middleware' =>  ['auth','verified', 'adm']], function () {
     Route::get('/admin', 'HomeController@admin');
     Route::get('/create-article', 'ProduitController@indexadm');
 
+    Route::put('/clients', 'ClientController@store');
+    Route::get('/getclients', 'ClientController@getclient');
+    Route::get('/delclient/{id}', 'ClientController@destroy');
+    Route::put('/editclient/{id}', 'ClientController@update');
+
+    Route::put('/stocks', 'StockController@store');
+    Route::get('/gstock', 'StockController@index');
+    Route::get('/getstocks', 'StockController@getstock');
+    Route::get('/delstock/{id}', 'StockController@destroy');
+    Route::put('/editstock/{id}', 'StockController@update');
+
  });
 
 
@@ -46,10 +57,12 @@ Route::post('file-upload/upload', 'FileUploadController@upload')->name('upload')
 
 Route::get('/gscom', function(){
   return view('gestioncommande');
-  
+
+});
+
+Route::get('/test2', function(){
+  return liste_produit_unite();
+
 });
 
 
-Route::put('/clients', 'ClientController@store');
-Route::get('/getclients', 'ClientController@getclient');
-Route::get('/delclient/{id}', 'ClientController@destroy');

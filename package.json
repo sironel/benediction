@@ -27,7 +27,11 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.13.0",
         "bootstrap-sass": "^3.4.1",
+        "toastr": "^2.1.4",
         "vue-axios": "^3.2.0",
-        "vue-router": "^3.4.9"
+        "vue-router": "^3.4.9",
+        "vue-swal": "^1.0.0",
+        "vue-toastr": "^2.1.2",
+        "vue-toastr-2": "0.0.10"
     }
 }

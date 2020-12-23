@@ -34,28 +34,17 @@ class ClientController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $client = new Client;
-        $client->nom=$request->nom;
-        $client->prenom=$request->get('prenom'); 
-        $client->ville=$request->get('ville');
-        $client->adresse=$request->get('adresse');
-        $client->telephone=$request->get('telephone');
-        $client->sexe=$request->get('sexe');
-        $client->save();
-                 
-        // $data=[
-        //     'nom'=>$request->get('nom'),
-        //     'prenom'=>$request->get('prenom'), 
-        //     'ville'=>$request->get('ville'),
-        //     'adresse'=>$request->get('adresse'),
-        //     'telephone'=>$request->get('telephone'),
-        //     'sexe'=>$request->get('sexe')
-        // ];          
-        
-            // $cli=store_data('Client',$data);
-            // $client=$cli['data'];
-            return Response::json($client); 
+    {                         
+        $data=[
+            'nom'=>$request->get('nom'),
+            'prenom'=>$request->get('prenom'), 
+            'ville'=>$request->get('ville'),
+            'adresse'=>$request->get('adresse'),
+            'telephone'=>$request->get('telephone'),
+            'sexe'=>$request->get('sexe')
+        ];       
+       $client=store_data('Client',$data);
+       return Response::json($client); 
          
     }
 
@@ -92,9 +81,20 @@ class ClientController extends Controller
      * @param  \App\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Client $client)
+    public function update(Request $request,$id)
     {
-        //
+        $client = Client::find($id);
+        
+            $client->nom=$request->get('nom');
+             $client->prenom=$request->get('prenom'); 
+             $client->ville=$request->get('ville');
+             $client->adresse=$request->get('adresse');
+             $client->telephone=$request->get('telephone');
+             $client->sexe=$request->get('sexe');
+             $client->save();
+              
+           return Response::json($client); 
+         
     }
 
     /**
