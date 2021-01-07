@@ -39,6 +39,7 @@
                     <th scope="col">Famille</th>
                     <th scope="col">Symbole</th>
                     <th scope="col">Prix en Gdes</th>
+                    <th scope="col">Qte Dispo</th>
 
                   </tr>
                    </thead>
@@ -47,11 +48,11 @@
                   @foreach($lprix as $lpr)
                      <tr>
 
-                    <td>{{$lpr->nomproduit}}</td>
+                    <td>{{$lpr->produit}}</td>
                     <td>{{$lpr->nomfamille}}</td>
-                    <td>{{$lpr->symboleUnite}}</td>
+                    <td>{{$lpr->unite}}</td>
                     <td>$<a href="" class="update" data-name="montant" data-type="number" data-pk="{{ $lpr->id }}" data-title="Entrer montant"> {{number_format ($lpr->montant,2)}}</a> Gdes</td>
-
+                    <td>{{$lpr->qte}}</td>
                   </tr>
 
 

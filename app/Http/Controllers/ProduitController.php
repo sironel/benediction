@@ -72,6 +72,7 @@ class ProduitController extends Controller
         $prix->montant =$request->get('montant');
         $prix->save();
         }
+        
         return Response::json($produit);
 
     }

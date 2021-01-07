@@ -1,17 +1,17 @@
 <template>
     <div class="container">
-       <table class="table table-striped">
-          <tbody>
-             <tr>
-                <td colspan="1">
+       <div  class="row">         
+       <div  class="col-md-6">         
+             
                    <form class="well form-horizontal" v-on:submit.prevent="storeStock">
-                      <fieldset>
+                     
                              <div class="col-md-4 form-group">
                                <label for="exampleFormControlSelect2">Selectionner Unité *</label>
-                              <!--   <select  class="form-control"  v-model="stocks.produit_unite_id" name="produit_unite_id" id="produit_unite_id"> 
-                                     <option  v-for="(p, index) in up" :key="index" :value="p.id" :selected="selectedOption(p)" >{{p.nomproduit + ' / '+ p.nomunite}}</option>                               
-                                </select> -->
-                               <v-select :option="up" :reduce="up=>produit_unite_id=>up.id" label="up.nomproduit"/>
+
+                                <select  class="form-control" size="5" v-model="stocks.produit_unite_id" name="produit_unite_id" id="produit_unite_id"> 
+                                     <option  v-for="(p, index) in up" :key="index" :value="p.id" >{{p.nomproduit + ' / '+ p.nomunite}}</option>                              
+                                </select>
+                               
                               </div>
                              
                             <div class="form-group">
@@ -21,25 +21,20 @@
                             </div>
                          </div>
                         
-                      </fieldset>
+                     
                        <button class="btn btn-primary" type="button" v-on:click="storeStock">
                            <div v-if="loading" class="spinner-border spinner-border-sm" ></div>
                            <span v-if="loading" class="px-1">En cours</span>
                            <span v-else>{{btext}}</span>
                          </button>
                    </form>
-                </td>
-                <td colspan="1">
-                   <form class="well form-horizontal" >
-                      <fieldset>
-                          
-                      </fieldset>
-                        
-                   </form>
-                </td>
-             </tr>
-          </tbody>
-       </table>
+                </div>
+                <div class="col-md-6">                  
+                      
+                         <h4>{{nomp}} : <span class="badge badge-secondary">{{qte_dispo}}</span></h4>
+             </div>
+             </div>
+      
        
        <table class="table table-stripped">
                 <thead>
@@ -70,6 +65,8 @@
                   </tr>
                 </tbody>
               </table>
+
+             <!--  <b-table striped hover :items="lstocks"></b-table> -->
                </div>
 </template>
 <script>
@@ -89,7 +86,9 @@
               btext:'Enregistrer',
               stocks:{produit_unite_id:'', quantite:''},
               lstocks:[],
-              up:[]
+              up:[],
+              qte_dispo :'0.0',
+              nomp :'Produit'
            }
 
         },
@@ -117,7 +116,7 @@
               this.btext = 'Modifier';
               this.id='edit'+stock.id;
               this.stock_id = stock.id;
-              this.stocks.produit_unite_id = stock.id;
+              this.stocks.produit_unite_id = stock.produit_unite_id;
               this.stocks.quantite = stock.quantite;             
                this.id=0;
            },
@@ -127,10 +126,12 @@
                  let uri='stocks/';
             if(this.checkForm()){
                this.loading = !false;
-               alert(this.stocks.produit_unite_id);
+             
               Axios.put(uri, this.stocks).then((response)=>{
                  console.log(response);
-                 this.lstocks.push(response.data.data);
+                 this.lstocks.unshift(response.data.data);
+                  this.qte_dispo = response.data[5] +' '+ response.data[3];
+                 this.nomp = response.data[1];
                  this.loading = !true;
                  this.$toastr.s("Stock enregistré avec succes", "Message Benediction");
 
@@ -148,12 +149,13 @@
                this.loading = !false;
               Axios.put(uri, this.stocks).then((response)=>{
                  console.log(response);
-                     this.getstock();
+                     this.getStock();
                    this.loading = !true;
                  this.$toastr.s("Stock modifié avec succes", "Message Benediction");
                   this.edit = false;
                   this.btext = 'Enregistrer';
               }).catch(error => {
+                  console.log(error);
                   this.$toastr.e("Echec de la modification...", "Message Benediction");
                           this.edit = false;
                           this.btext = 'Enregistrer';
@@ -162,12 +164,12 @@
             else
               this.$toastr.s("Il faut remplir certain champ", "Message Benediction");
               }
-            }
+            },
 
-           },
+           
 
 
-            retirer:function(Stock){
+            retirer:function(stock){
                var index = this.lstocks.indexOf(stock);
                if (index > -1) {
                this.lstocks.splice(index, 1);
@@ -180,6 +182,8 @@
                  this.id='del'+stock.id;
               Axios.get(uri).then((response)=>{
                  console.log(response.data);
+                  this.qte_dispo = response.data[5] +' '+ response.data[3];
+                 this.nomp = response.data[1];
                  this.retirer(stock);
                  //this.getstock();
                  this.$toastr.s("stock supprimé avec succes", "Message Benediction");
@@ -189,6 +193,7 @@
            }
 
         }
+      }
 
 
 </script>

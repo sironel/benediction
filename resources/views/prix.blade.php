@@ -31,6 +31,7 @@
                     <th scope="col">Famille</th>
                     <th scope="col">Symbole</th>
                     <th scope="col">Prix</th>
+                    <th scope="col">Qte Dispo</th>
 
                   </tr>
                    </thead>
@@ -43,6 +44,7 @@
                     <td>{{$lpr->nomfamille}}</td>
                     <td>{{$lpr->symboleUnite}}</td>
                     <td>$ {{$lpr->montant}} Gdes</td>
+                    <td>$ {{$lpr->qte}}</td>
 
                   </tr>
 

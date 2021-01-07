@@ -1,5 +1,47 @@
 <?php
 
+function qte_produit_dispo($produit_unite_id){
+  $liste = DB::table('stocks')
+   ->join('produit_unite', 'stocks.produit_unite_id', 'produit_unite.id')
+  ->join('produits', 'produit_unite.produit_id', 'produits.id')
+  ->join('unites', 'produit_unite.unite_id', 'unites.id')
+  ->where('produit_unite_id', $produit_unite_id)
+  ->select('nomproduit', 'nomunite',DB::raw('SUM(quantite) as Qte'))
+  ->groupBy('nomproduit', 'nomunite')
+  ->get();
+  return $liste[0];
+
+  // $qte = \App\Stock::where('produit_unite_id', $produit_unite_id)->sum('quantite');
+  // return $qte;
+}
+
+function get_nomp_unitep($produit_unite_id){
+ $liste = DB::table('produit_unite')
+   ->join('produits', 'produit_unite.produit_id', 'produits.id')
+  ->join('unites', 'produit_unite.unite_id', 'unites.id')
+  ->where('produit_unite.id', $produit_unite_id)
+  ->select('nomproduit', 'nomunite')
+   ->get();
+  return $liste[0];
+}
+
+
+function consult_produits(){
+  return DB::table('prixventes')
+        ->join('produit_unite' , 'prixventes.produit_unite_id' ,'produit_unite.id')
+        ->join('stocks', 'stocks.produit_unite_id' ,'produit_unite.id')
+        ->join('produits' , 'produit_unite.produit_id' ,'produits.id')
+        ->join('unites' , 'produit_unite.unite_id' ,'unites.id')
+        ->join('famille_produits' , 'produits.famille_produit_id' ,'famille_produits.id')
+        ->select('prixventes.id','produits.nomproduit as produit','unites.nomunite as unite','montant', 'nomfamille', DB::raw('SUM(quantite) as qte'))
+        ->groupBy('prixventes.id','produits.nomproduit','unites.symboleUnite','montant', 'nomfamille')
+        ->orderBy('produits.nomproduit', 'ASC')->get();
+}
+
+
+
+
+
 function nb_etudiants(){
   return( \App\Etudiant::all()->count());
 }

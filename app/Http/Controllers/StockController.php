@@ -43,6 +43,10 @@ class StockController extends Controller
 
           ];
      $stock=store_data('Stock',$data);
+     $qte_dispo = qte_produit_dispo($data['produit_unite_id']);
+      array_push($stock,'nomp',$qte_dispo->nomproduit);
+      array_push($stock,'nomu',$qte_dispo->nomunite);
+      array_push($stock,'qte',$qte_dispo->Qte);
      return Response::json($stock);
     }
 
@@ -100,6 +104,20 @@ class StockController extends Controller
      */
     public function destroy( $id)
     {
-      return Response::json(delete_data('Stock',$id));
+            $pu_id=Stock::where('id', $id)->pluck('produit_unite_id')[0];
+            $stock = delete_data('Stock',$id);
+            if(count(Stock::where('produit_unite_id', $pu_id)->get()) > 0){
+                 $qte_dispo = qte_produit_dispo($pu_id);
+                  array_push($stock,'nomp',$qte_dispo->nomproduit);
+                  array_push($stock,'nomu',$qte_dispo->nomunite);
+                  array_push($stock,'qte',$qte_dispo->Qte);
+            }
+            else{
+                $np_up= get_nomp_unitep($pu_id);
+                 array_push($stock,'nomp',$np_up->nomproduit);
+                 array_push($stock,'nomu', $np_up->nomunite);
+                  array_push($stock,'qte',0);
+            }
+      return Response::json($stock);
     }
 }

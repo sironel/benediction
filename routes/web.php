@@ -48,6 +48,12 @@ Route::group(['middleware' =>  ['auth','verified', 'adm']], function () {
     Route::get('/delstock/{id}', 'StockController@destroy');
     Route::put('/editstock/{id}', 'StockController@update');
 
+    Route::put('/ventes', 'VenteController@store');
+    Route::get('/gvente', 'VenteController@index');
+    Route::get('/getventes', 'VenteController@getvente');
+    Route::get('/delvente/{id}', 'VenteController@destroy');
+    Route::put('/editvente/{id}', 'VenteController@update');
+
  });
 
 
@@ -61,7 +67,7 @@ Route::get('/gscom', function(){
 });
 
 Route::get('/test2', function(){
-  return liste_produit_unite();
+  return consult_produits();
 
 });
 

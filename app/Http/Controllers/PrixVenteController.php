@@ -19,25 +19,21 @@ class PrixVenteController extends Controller
 
 public function prix_produit()
     {
-        $lprix= DB::table('prixventes')
-        ->join('produit_unite' , 'prixventes.produit_unite_id' ,'produit_unite.id')
-        ->join('produits' , 'produit_unite.produit_id' ,'produits.id')
-        ->join('unites' , 'produit_unite.unite_id' ,'unites.id')
-        ->join('famille_produits' , 'produits.famille_produit_id' ,'famille_produits.id')
-        ->select('produits.nomproduit','unites.symboleUnite','montant', 'nomfamille')
-        ->orderBy('produits.nomproduit', 'ASC')->get();
+        $lprix = consult_produits();
+
         return view('prix')->with('lprix', $lprix);
     }
 
 public function prix_to_Update()
     {
-        $lprix= DB::table('prixventes')
-        ->join('produit_unite' , 'prixventes.produit_unite_id' ,'produit_unite.id')
-        ->join('produits' , 'produit_unite.produit_id' ,'produits.id')
-        ->join('unites' , 'produit_unite.unite_id' ,'unites.id')
-        ->join('famille_produits' , 'produits.famille_produit_id' ,'famille_produits.id')
-        ->select('prixventes.id','produits.nomproduit','unites.symboleUnite','montant', 'nomfamille')
-        ->orderBy('produits.nomproduit', 'ASC')->get();
+        // $lprix= DB::table('prixventes')
+        // ->join('produit_unite' , 'prixventes.produit_unite_id' ,'produit_unite.id')
+        // ->join('produits' , 'produit_unite.produit_id' ,'produits.id')
+        // ->join('unites' , 'produit_unite.unite_id' ,'unites.id')
+        // ->join('famille_produits' , 'produits.famille_produit_id' ,'famille_produits.id')
+        // ->select('prixventes.id','produits.nomproduit','unites.symboleUnite','montant', 'nomfamille')
+        // ->orderBy('produits.nomproduit', 'ASC')->get();
+        $lprix = consult_produits();
         return view('Admin.prix_update')->with('lprix', $lprix);
     }
 
